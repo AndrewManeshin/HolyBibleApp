@@ -42,6 +42,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:loggin-intercepter:4.10.0'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.3'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
