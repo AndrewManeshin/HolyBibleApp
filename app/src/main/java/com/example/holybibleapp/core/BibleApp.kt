@@ -11,6 +11,8 @@ import com.example.holybibleapp.data.net.BooksCloudDataSource
 import com.example.holybibleapp.data.net.BooksCloudMapper
 import com.example.holybibleapp.data.net.BooksService
 import retrofit2.Retrofit
+import com.example.holybibleapp.domain.BaseBooksDataToDomainMapper
+import com.example.holybibleapp.domain.BooksInteractor
 
 class BibleApp : Application() {
 
@@ -38,10 +40,6 @@ class BibleApp : Application() {
             booksCacheMapper
         )
 
+        val booksInteractor = BooksInteractor.Base(booksRepository, BaseBooksDataToDomainMapper())
     }
-
-    private companion object {
-        const val BASE_URL = "https://bible-go-api.rkeplin.com/v1/"
-    }
-
 }
