@@ -13,8 +13,15 @@ import com.example.holybibleapp.data.net.BooksService
 import retrofit2.Retrofit
 import com.example.holybibleapp.domain.BaseBooksDataToDomainMapper
 import com.example.holybibleapp.domain.BooksInteractor
+import com.example.holybibleapp.presentation.BaseBookDomainToUIMapper
+import com.example.holybibleapp.presentation.BooksCommunication
+import com.example.holybibleapp.presentation.MainViewModel
+import com.example.holybibleapp.presentation.ResourceProvider
+
 
 class BibleApp : Application() {
+
+    lateinit var mainViewModel: MainViewModel
 
     override fun onCreate() {
         super.onCreate()
@@ -33,7 +40,7 @@ class BibleApp : Application() {
 
         val booksCacheMapper = BooksCacheMapper.Base(BookCacheMapper.Base())
 
-        val BooksRepository = BooksRepository.Base(
+        val booksRepository = BooksRepository.Base(
             cloudDataSource,
             cacheDataSource,
             booksCloudMapper,
@@ -41,5 +48,13 @@ class BibleApp : Application() {
         )
 
         val booksInteractor = BooksInteractor.Base(booksRepository, BaseBooksDataToDomainMapper())
+
+        val communication = BooksCommunication.Base()
+
+        mainViewModel = MainViewModel(
+            booksInteractor,
+            BaseBookDomainToUIMapper(communication, ResourceProvider.Base(this)),
+            communication
+        )
     }
 }
