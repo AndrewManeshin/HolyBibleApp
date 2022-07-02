@@ -9,7 +9,7 @@ interface BooksCommunication {
 
     fun show(books: List<Book>)
 
-    fun show(ErrorMessage: String)
+    fun show(errorMessage: String)
 
     fun observeSuccess(owner: LifecycleOwner, observer: Observer<List<Book>>)
     fun observeFail(owner: LifecycleOwner, observer: Observer<String>)

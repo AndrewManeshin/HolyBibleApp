@@ -10,6 +10,7 @@ import com.example.holybibleapp.domain.BooksDomainToUIMapper
 import com.example.holybibleapp.domain.BooksInteractor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainViewModel(
     private val booksInteractor: BooksInteractor,
@@ -18,9 +19,10 @@ class MainViewModel(
 ) : ViewModel() { //todo interface
 
     fun fetchBooks() = viewModelScope.launch(Dispatchers.IO) {
-        val result = booksInteractor.fetchBooks().map(mapper)
-        Dispatchers.Main.run {
-            result.map(Abstract.Mapper.Empty())
+        val resultDomain = booksInteractor.fetchBooks()
+        withContext(Dispatchers.Main) {
+            val resultUI = resultDomain.map(mapper)
+            resultUI.map(Abstract.Mapper.Empty())
         }
     }
 

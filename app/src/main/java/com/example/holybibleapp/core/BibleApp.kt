@@ -17,6 +17,8 @@ import com.example.holybibleapp.presentation.BaseBookDomainToUIMapper
 import com.example.holybibleapp.presentation.BooksCommunication
 import com.example.holybibleapp.presentation.MainViewModel
 import com.example.holybibleapp.presentation.ResourceProvider
+import io.realm.Realm
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 class BibleApp : Application() {
@@ -26,10 +28,13 @@ class BibleApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        Realm.init(this)
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             //todo log http calls
             .build()
+
         val service = retrofit.create(BooksService::class.java)
 
         val cloudDataSource = BooksCloudDataSource.Base(service)
@@ -56,5 +61,9 @@ class BibleApp : Application() {
             BaseBookDomainToUIMapper(communication, ResourceProvider.Base(this)),
             communication
         )
+    }
+
+    private companion object {
+        const val BASE_URL = "https://bible-go-api.rkeplin.com/v1/"
     }
 }

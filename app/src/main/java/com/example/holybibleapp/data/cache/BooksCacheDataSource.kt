@@ -1,8 +1,7 @@
 package com.example.holybibleapp.data.cache
 
 import com.example.holybibleapp.core.Book
-import io.realm.kotlin.Realm
-import io.realm.kotlin.ext.query
+import io.realm.Realm
 
 interface BooksCacheDataSource {
 
@@ -10,20 +9,25 @@ interface BooksCacheDataSource {
 
     fun saveBooks(books: List<Book>)
 
-    class Base(private val config: RealmProvider) : BooksCacheDataSource {
+    class Base(private val realmProvider: RealmProvider) : BooksCacheDataSource {
 
         override fun fetchBooks(): List<BookDB> {
-            return Realm.open(config.provide()).query<BookDB>().find()
+            return realmProvider.provide().use { realm ->
+                val booksDB = realm.where(BookDB::class.java).findAll() ?: emptyList()
+                return realm.copyFromRealm(booksDB)
+            }
         }
 
         override fun saveBooks(books: List<Book>) {
-            Realm.open(config.provide()).writeBlocking {
-                books.forEach { book ->
-                    this.copyToRealm(BookDB().apply {
-                        id = book.id
-                        name = book.name
-                    })
+            realmProvider.provide().use { realm ->
+                realm.executeTransaction {
+                    books.forEach { book->
+                            val bookDB = it.createObject(BookDB::class.java, book.id)
+                        bookDB.name = book.name
+
+                    }
                 }
+
             }
         }
     }

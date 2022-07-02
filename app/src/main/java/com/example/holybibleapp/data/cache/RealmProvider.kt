@@ -1,15 +1,13 @@
 package com.example.holybibleapp.data.cache
 
-import io.realm.kotlin.RealmConfiguration
+import io.realm.Realm
+
 
 interface RealmProvider {
 
-    fun provide(): RealmConfiguration
+    fun provide(): Realm
 
     class Base : RealmProvider {
-
-        override fun provide(): RealmConfiguration {
-            return RealmConfiguration.create(schema = setOf(BookDB::class))
-        }
+        override fun provide(): Realm = Realm.getDefaultInstance()
     }
 }

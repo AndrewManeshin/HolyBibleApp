@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'io.realm.kotlin'
+    id 'kotlin-kapt'
+    id 'realm-android'
 }
 
 android {
@@ -41,13 +42,13 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.okhttp3:loggin-intercepter:4.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.3'
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
-    implementation 'io.realm.kotlin:library-base:1.0.0'
+//    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3'
+//    implementation 'io.realm.kotlin:library-base:1.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
