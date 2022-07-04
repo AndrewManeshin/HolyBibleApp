@@ -3,37 +3,23 @@ package com.example.holybibleapp.presentation
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.example.holybibleapp.core.Book
+import com.example.holybibleapp.core.Abstract
 
-interface BooksCommunication {
+interface BooksCommunication : Abstract.Mapper {
 
-    fun show(books: List<Book>)
+    fun map(books: List<BookUI>)
 
-    fun show(errorMessage: String)
-
-    fun observeSuccess(owner: LifecycleOwner, observer: Observer<List<Book>>)
-    fun observeFail(owner: LifecycleOwner, observer: Observer<String>)
+    fun observe(owner: LifecycleOwner, observer: Observer<List<BookUI>>)
 
     class Base : BooksCommunication {
+        private val listLiveData = MutableLiveData<List<BookUI>>()
 
-        private val successLiveData = MutableLiveData<List<Book>>()
-        private val failLiveData = MutableLiveData<String>()
-
-
-        override fun show(books: List<Book>) {
-            successLiveData.value = books
+        override fun map(books: List<BookUI>) {
+            listLiveData.value = books
         }
 
-        override fun show(errorMessage: String) {
-            failLiveData.value = errorMessage
-        }
-
-        override fun observeSuccess(owner: LifecycleOwner, observer: Observer<List<Book>>) {
-            successLiveData.observe(owner, observer)
-        }
-
-        override fun observeFail(owner: LifecycleOwner, observer: Observer<String>) {
-            failLiveData.observe(owner, observer)
+        override fun observe(owner: LifecycleOwner, observer: Observer<List<BookUI>>) {
+            listLiveData.observe(owner, observer)
         }
     }
 }

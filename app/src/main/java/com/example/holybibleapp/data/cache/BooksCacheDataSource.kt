@@ -1,15 +1,17 @@
 package com.example.holybibleapp.data.cache
 
-import com.example.holybibleapp.core.Book
+import com.example.holybibleapp.data.BookData
+import com.example.holybibleapp.data.BookDataToDBMapper
 import io.realm.Realm
 
 interface BooksCacheDataSource {
 
     fun fetchBooks(): List<BookDB>
 
-    fun saveBooks(books: List<Book>)
+    fun saveBooks(books: List<BookData>)
 
-    class Base(private val realmProvider: RealmProvider) : BooksCacheDataSource {
+    class Base(private val realmProvider: RealmProvider,
+    private val mapper: BookDataToDBMapper) : BooksCacheDataSource {
 
         override fun fetchBooks(): List<BookDB> {
             return realmProvider.provide().use { realm ->
@@ -18,13 +20,11 @@ interface BooksCacheDataSource {
             }
         }
 
-        override fun saveBooks(books: List<Book>) {
+        override fun saveBooks(books: List<BookData>) {
             realmProvider.provide().use { realm ->
                 realm.executeTransaction {
                     books.forEach { book->
-                            val bookDB = it.createObject(BookDB::class.java, book.id)
-                        bookDB.name = book.name
-
+                        book.mapTo(mapper, it)
                     }
                 }
 
