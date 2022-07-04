@@ -47,7 +47,8 @@ class BibleApp : Application() {
 
         val cloudDataSource = BooksCloudDataSource.Base(service, gson)
 
-        val cacheDataSource = BooksCacheDataSource.Base(RealmProvider.Base(), BookDataToDBMapper.Base())
+        val cacheDataSource =
+            BooksCacheDataSource.Base(RealmProvider.Base(), BookDataToDBMapper.Base())
 
         val toBookMapper = ToBookMapper.Base()
 
@@ -62,13 +63,18 @@ class BibleApp : Application() {
             booksCacheMapper
         )
 
-        val booksInteractor = BooksInteractor.Base(booksRepository, BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper()))
+        val booksInteractor = BooksInteractor.Base(
+            booksRepository,
+            BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper())
+        )
 
         val communication = BooksCommunication.Base()
 
+        val resourceProvider = ResourceProvider.Base(this)
+
         mainViewModel = MainViewModel(
             booksInteractor,
-            BaseBooksDomainToUIMapper(ResourceProvider.Base(this), BaseBookDomainToUIMapper()),
+            BaseBooksDomainToUIMapper(resourceProvider, BaseBookDomainToUIMapper(resourceProvider)),
             communication
         )
     }

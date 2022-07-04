@@ -8,7 +8,7 @@ import com.example.holybibleapp.domain.ErrorType
 
 sealed class BooksUI : Abstract.Object<Unit, BooksCommunication> {
 
-    class Success(
+    data class Success(
         private val books: List<BookDomain>,
         private val bookMapper: BookDomainToUIMapper
     ) : BooksUI() {
@@ -20,7 +20,7 @@ sealed class BooksUI : Abstract.Object<Unit, BooksCommunication> {
         }
     }
 
-    class Fail(
+    data class Fail(
         private val errorType: ErrorType,
         private val resourceProvider: ResourceProvider
     ) : BooksUI() {
