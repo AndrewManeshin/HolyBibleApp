@@ -2,14 +2,14 @@ package com.example.holybibleapp.data
 
 import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.data.cache.BookDB
-import io.realm.Realm
+import com.example.holybibleapp.data.cache.DBWrapper
 
 interface BookDataToDBMapper : Abstract.Mapper {
-    fun mapToDB(id: Int, name: String, testament: String, realm: Realm): BookDB
+    fun mapToDB(id: Int, name: String, testament: String, dbWrapper: DBWrapper): BookDB
 
     class Base : BookDataToDBMapper {
-        override fun mapToDB(id: Int, name: String, testament: String, realm: Realm): BookDB {
-            val bookDB = realm.createObject(BookDB::class.java, id)
+        override fun mapToDB(id: Int, name: String, testament: String, dbWrapper: DBWrapper): BookDB {
+            val bookDB = dbWrapper.createObject(id)
             bookDB.name = name
             bookDB.testament = testament
             return bookDB
