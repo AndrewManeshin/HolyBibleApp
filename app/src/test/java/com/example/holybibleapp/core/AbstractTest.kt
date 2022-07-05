@@ -11,21 +11,22 @@ class AbstractTest {
     fun test_success() {
         val dataObject = TestDataObject.Success("a", "b")
         val domainObject = dataObject.map(DataToDomainMapper.Base())
-        assertTrue(domainObject is DomainObject.Success)
+        val expected = DomainObject.Success("a b")
+        assertEquals(expected, domainObject)
     }
 
-        @Test
-        fun test_fail() {
-            val dataObject = TestDataObject.Fail(IOException())
-            val domainObject = dataObject.map(DataToDomainMapper.Base())
-            assertTrue(domainObject is DomainObject.Fail)
+    @Test
+    fun test_fail() {
+        val dataObject = TestDataObject.Fail(IOException())
+        val domainObject = dataObject.map(DataToDomainMapper.Base())
+        assertTrue(domainObject is DomainObject.Fail)
     }
 
-        private sealed class TestDataObject : Abstract.Object<DomainObject, DataToDomainMapper> {
+    private sealed class TestDataObject : Abstract.Object<DomainObject, DataToDomainMapper> {
 
         abstract override fun map(mapper: DataToDomainMapper): DomainObject
 
-        class Success(private val textOne: String, private val textTwo: String) : TestDataObject() {
+        data class Success(private val textOne: String, private val textTwo: String) : TestDataObject() {
 
             override fun map(mapper: DataToDomainMapper): DomainObject {
                 return mapper.map(textOne, textTwo)
@@ -43,38 +44,36 @@ class AbstractTest {
 
     private interface DataToDomainMapper : Abstract.Mapper {
 
-        fun map(textOne: String, textTwo: String) : DomainObject
+        fun map(textOne: String, textTwo: String): DomainObject
 
         fun map(exception: Exception): DomainObject
 
-        class Base: DataToDomainMapper {
+        class Base : DataToDomainMapper {
             override fun map(textOne: String, textTwo: String): DomainObject {
                 return DomainObject.Success("$textOne $textTwo")
             }
 
             override fun map(exception: Exception): DomainObject {
-                return DomainObject.Fail()
+                return DomainObject.Fail
             }
         }
     }
 
     private sealed class DomainObject : Abstract.Object<UIObject, DomainToUIMapper> {
-        class Success(private val textCombined: String): DomainObject() {
+        data class Success(private val textCombined: String) : DomainObject() {
             override fun map(mapper: DomainToUIMapper): UIObject {
-                TODO("not done yet")
+                throw IllegalStateException("Not yet implemented")
             }
         }
 
-        class Fail : DomainObject() {
+        object Fail : DomainObject() {
             override fun map(mapper: DomainToUIMapper): UIObject {
-                TODO("Not yet implemented")
+                throw IllegalStateException("Not yet implemented")
             }
         }
     }
 
-    private interface DomainToUIMapper : Abstract.Mapper {
+    interface DomainToUIMapper : Abstract.Mapper
 
-    }
-
-    private sealed class UIObject : Abstract.Object<Unit, Abstract.Mapper.Empty>
+    sealed class UIObject : Abstract.Object<Unit, Abstract.Mapper.Empty>
 }
