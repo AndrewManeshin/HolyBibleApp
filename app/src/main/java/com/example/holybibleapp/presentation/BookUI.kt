@@ -25,7 +25,7 @@ sealed class BookUI : Abstract.Object<Unit, BookUI.StringMapper> {
         name: String
     ) : Info(id, name)
 
-    class Fail(
+    data class Fail(
         private val massage: String
     ) : BookUI() {
         override fun map(mapper: StringMapper) = mapper.map(massage)
