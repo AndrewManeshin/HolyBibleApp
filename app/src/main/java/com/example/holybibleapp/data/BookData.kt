@@ -2,9 +2,10 @@ package com.example.holybibleapp.data
 
 import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.data.cache.BookDB
+import com.example.holybibleapp.data.cache.DBWrapper
 import com.example.holybibleapp.domain.BookDomain
 
-class BookData(
+data class BookData(
     private val id: Int,
     private val name: String,
     private val testament: String
