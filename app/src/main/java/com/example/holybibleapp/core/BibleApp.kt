@@ -38,7 +38,6 @@ class BibleApp : Application() {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
-            //todo log http calls
             .build()
 
         val service = retrofit.create(BooksService::class.java)
