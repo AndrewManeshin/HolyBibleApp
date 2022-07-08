@@ -13,7 +13,8 @@ import kotlinx.coroutines.withContext
 class MainViewModel(
     private val booksInteractor: BooksInteractor,
     private val mapper: BooksDomainToUIMapper,
-    private val communication: BooksCommunication
+    private val communication: BooksCommunication,
+    private val uiDataCache: UiDataCache
 ) : ViewModel() { //todo interface
 
     fun fetchBooks() {
@@ -23,13 +24,22 @@ class MainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val resultDomain = booksInteractor.fetchBooks()
             val resultUI = resultDomain.map(mapper)
+            val actual = resultUI.cache(uiDataCache)
             withContext(Dispatchers.Main) {
-                resultUI.map(communication)
+                actual.map(communication)
             }
         }
     }
 
     fun observe(owner: LifecycleOwner, observer: Observer<List<BookUI>>) {
         communication.observe(owner, observer)
+    }
+
+    fun collapseOrExpand(id: Int) {
+        communication.map(uiDataCache.changeState(id))
+    }
+
+    fun saveCollapsedStates() {
+        uiDataCache.saveState()
     }
 }

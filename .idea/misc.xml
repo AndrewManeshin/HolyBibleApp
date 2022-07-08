@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_expand_more_24.xml" value="0.2225" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/book_layout.xml" value="0.2894399315946986" />
         <entry key="app/src/main/res/layout/fail_fullscreen.xml" value="0.2894399315946986" />
