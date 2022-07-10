@@ -1,5 +1,6 @@
 package com.example.holybibleapp.data.chapters
 
+import com.example.holybibleapp.core.Read
 import com.example.holybibleapp.data.chapters.cache.ChaptersCacheDataSource
 import com.example.holybibleapp.data.chapters.cache.ChaptersCacheMapper
 import com.example.holybibleapp.data.chapters.cloud.ChaptersCloudDataSource
@@ -13,14 +14,16 @@ interface ChaptersRepository {
         private val cloudDataSource: ChaptersCloudDataSource,
         private val cacheDataSource: ChaptersCacheDataSource,
         private val chapterCloudMapper: ChaptersCloudMapper,
-        private val chapterCacheMapper: ChaptersCacheMapper
+        private val chapterCacheMapper: ChaptersCacheMapper,
+        private val bookIdContainer: Read<Pair<Int, String>>
     ) : ChaptersRepository {
         override suspend fun fetchChapters(bookId: Int) = try {
+            val bookId = bookIdContainer.read().first
             val chaptersCacheList = cacheDataSource.fetchChapters(bookId)
             if (chaptersCacheList.isEmpty()) {
                 val chaptersCloudList = cloudDataSource.fetchChapters(bookId)
                 val chapters = chapterCloudMapper.map(chaptersCloudList, bookId)
-                cacheDataSource.saveChapters(bookId, chapters)
+                cacheDataSource.save(chapters)
                 ChaptersData.Success(chapters)
             } else {
                 ChaptersData.Success(chapterCacheMapper.map(chaptersCacheList))

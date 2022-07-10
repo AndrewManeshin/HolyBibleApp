@@ -7,8 +7,10 @@ import io.realm.RealmObject
 
 open class ChapterDb : RealmObject(), Abstract.Object<ChapterData, ToChapterMapper> {
 
+    /**
+     * BookId * 1000 + chapterId
+     */
     var id: Int = -1
-    var bookId: Int = -1
 
-    override fun map(mapper: ToChapterMapper) = mapper.map(id, bookId)
+    override fun map(mapper: ToChapterMapper) = mapper.map(id)
 }

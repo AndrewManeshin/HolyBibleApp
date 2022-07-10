@@ -1,7 +1,7 @@
 package com.example.holybibleapp.core
 
 import android.app.Application
-import com.example.holybibleapp.data.books.BookDataToDBMapper
+import com.example.holybibleapp.data.books.cache.BookDataToDbMapper
 import com.example.holybibleapp.data.books.BooksRepository
 import com.example.holybibleapp.data.books.cache.BooksCacheDataSource
 import com.example.holybibleapp.data.books.cache.BooksCacheMapper
@@ -66,7 +66,7 @@ class BibleApp : Application() {
         val realmProvider = RealmProvider.Base()
 
         val cacheDataSource =
-            BooksCacheDataSource.Base(realmProvider, BookDataToDBMapper.Base())
+            BooksCacheDataSource.Base(realmProvider, BookDataToDbMapper.Base())
 
         val toBookMapper = ToBookMapper.Base()
 

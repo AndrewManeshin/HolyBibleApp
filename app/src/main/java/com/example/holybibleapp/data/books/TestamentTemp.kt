@@ -1,21 +1,19 @@
 package com.example.holybibleapp.data.books
 
-interface TestamentTemp {
-    fun save(testament: String)
+import com.example.holybibleapp.core.Matcher
+import com.example.holybibleapp.core.Save
 
-    fun matches(testament: String) : Boolean
+interface TestamentTemp : Matcher<String>, Save<String> {
 
     fun isEmpty() : Boolean
 
     class Base : TestamentTemp {
+
         private var temp: String = ""
-
-        override fun save(testament: String) {
-            temp = testament
+        override fun save(data  : String) {
+            temp = data
         }
-
-        override fun matches(testament: String) = temp == testament
-
+        override fun matches(arg: String) = temp == arg
         override fun isEmpty() = temp.isEmpty()
     }
 }

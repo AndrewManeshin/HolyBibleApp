@@ -1,30 +1,27 @@
 package com.example.holybibleapp.data.books.cache
 
 import com.example.holybibleapp.core.DbWrapper
+import com.example.holybibleapp.core.Read
 import com.example.holybibleapp.core.RealmProvider
+import com.example.holybibleapp.core.Save
 import com.example.holybibleapp.data.books.BookData
-import com.example.holybibleapp.data.books.BookDataToDBMapper
 import io.realm.Realm
 
-interface BooksCacheDataSource {
-
-    fun fetchBooks(): List<BookDB>
-
-    fun saveBooks(books: List<BookData>)
+interface BooksCacheDataSource : Save<List<BookData>>, Read<List<BookDb>> {
 
     class Base(
         private val realmProvider: RealmProvider,
-        private val mapper: BookDataToDBMapper
+        private val mapper: BookDataToDbMapper
     ) : BooksCacheDataSource {
 
-        override fun fetchBooks(): List<BookDB> {
+        override fun read(): List<BookDb> {
             return realmProvider.provide().use { realm ->
-                val booksDB = realm.where(BookDB::class.java).findAll() ?: emptyList()
+                val booksDB = realm.where(BookDb::class.java).findAll() ?: emptyList()
                 return realm.copyFromRealm(booksDB)
             }
         }
 
-        override fun saveBooks(books: List<BookData>) {
+        override fun save(books: List<BookData>) {
             realmProvider.provide().use { realm ->
                 realm.executeTransaction {
                     books.forEach { book ->
@@ -35,8 +32,8 @@ interface BooksCacheDataSource {
             }
         }
 
-        private inner class BookDbWrapper(realm: Realm) : DbWrapper.Base<BookDB>(realm) {
-            override fun dbClass() = BookDB::class.java
+        private inner class BookDbWrapper(realm: Realm) : DbWrapper.Base<BookDb>(realm) {
+            override fun dbClass() = BookDb::class.java
         }
     }
 }

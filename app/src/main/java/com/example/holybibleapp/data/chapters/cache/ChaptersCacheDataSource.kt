@@ -2,13 +2,14 @@ package com.example.holybibleapp.data.chapters.cache
 
 import com.example.holybibleapp.core.DbWrapper
 import com.example.holybibleapp.core.RealmProvider
+import com.example.holybibleapp.core.Save
 import com.example.holybibleapp.data.chapters.ChapterData
+import com.example.holybibleapp.data.chapters.ChapterId
 import io.realm.Realm
 
-interface ChaptersCacheDataSource {
+interface ChaptersCacheDataSource : Save<List<ChapterData>> {
 
     fun fetchChapters(bookId: Int) : List<ChapterDb>
-    fun saveChapters(bookId: Int, chapters: List<ChapterData>)
 
     class Base(
         private val realmProvider: RealmProvider,
@@ -16,18 +17,21 @@ interface ChaptersCacheDataSource {
     ) : ChaptersCacheDataSource {
 
         override fun fetchChapters(bookId: Int): List<ChapterDb> {
+            val chapterId = ChapterId.Base(bookId)
             realmProvider.provide().use { realm ->
                 val chapters = realm.where(ChapterDb::class.java)
-                    .equalTo("bookId", bookId)
+                    .between("id", chapterId.min(), chapterId.max())
                     .findAll()
                 return realm.copyFromRealm(chapters)
             }
         }
 
-        override fun saveChapters(bookId: Int, chapters: List<ChapterData>) {
+        override fun save(data: List<ChapterData>) {
             realmProvider.provide().use { realm ->
-                chapters.forEach { chapter ->
-                    chapter.mapToDb(mapper, ChapterDbWrapper(realm))
+                realm.executeTransaction {
+                    data.forEach { chapter ->
+                        chapter.mapBy(mapper, ChapterDbWrapper(realm))
+                    }
                 }
             }
         }

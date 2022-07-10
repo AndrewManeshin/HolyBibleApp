@@ -1,7 +1,7 @@
 package com.example.holybibleapp.data.chapters.cloud
 
-import com.example.holybibleapp.core.TypeTokenProvider
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 interface ChaptersCloudDataSource {
 
@@ -9,12 +9,12 @@ interface ChaptersCloudDataSource {
 
     class Base(
         private val service: ChaptersService,
-        private val gson: Gson,
-        private val typeTokenProvider: TypeTokenProvider<List<ChapterCloud>>
+        private val gson: Gson
     ) : ChaptersCloudDataSource {
 
-        override suspend fun fetchChapters(bookId: Int): List<ChapterCloud> =
-            gson.fromJson(service.fetchChapters(bookId).toString(), typeTokenProvider.provideType())
-
+        override suspend fun fetchChapters(bookId: Int): List<ChapterCloud> = gson.fromJson(
+            service.fetchChapters(bookId).toString(),
+            object : TypeToken<List<ChapterCloud>>() {}.type
+        )
     }
 }

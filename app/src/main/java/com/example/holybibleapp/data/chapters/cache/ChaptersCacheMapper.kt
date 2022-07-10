@@ -4,11 +4,10 @@ import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.data.chapters.ChapterData
 import com.example.holybibleapp.data.chapters.ToChapterMapper
 
-interface ChaptersCacheMapper : Abstract.Mapper {
-    fun map(chapters: List<ChapterDb>) : List<ChapterData>
+interface ChaptersCacheMapper : Abstract.Mapper.Data<List<ChapterDb>, List<ChapterData>> {
 
     class Base(private val mapper: ToChapterMapper) : ChaptersCacheMapper {
-        override fun map(chapters: List<ChapterDb>) = chapters.map { chapterDb ->
+        override fun map(data: List<ChapterDb>) = data.map { chapterDb ->
             chapterDb.map(mapper)
         }
     }

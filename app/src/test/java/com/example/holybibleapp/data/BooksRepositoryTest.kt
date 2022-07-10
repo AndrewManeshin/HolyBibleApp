@@ -3,7 +3,7 @@ package com.example.holybibleapp.data
 import com.example.holybibleapp.data.books.BookData
 import com.example.holybibleapp.data.books.BooksData
 import com.example.holybibleapp.data.books.BooksRepository
-import com.example.holybibleapp.data.books.cache.BookDB
+import com.example.holybibleapp.data.books.cache.BookDb
 import com.example.holybibleapp.data.books.cache.BooksCacheDataSource
 import com.example.holybibleapp.data.books.cache.BooksCacheMapper
 import com.example.holybibleapp.data.books.cloud.BookCloud
@@ -125,20 +125,20 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
         private val returnSuccess: Boolean,
     ) : BooksCacheDataSource {
 
-        override fun fetchBooks(): List<BookDB> {
+        override fun fetchBooks(): List<BookDb> {
             return if (returnSuccess) {
                 listOf(
-                    BookDB().apply {
+                    BookDb().apply {
                         id = 10
                         name = "name10"
                         testament = "nt"
                     },
-                    BookDB().apply {
+                    BookDb().apply {
                         id = 11
                         name = "name11"
                         testament = "nt"
                     },
-                    BookDB().apply {
+                    BookDb().apply {
                         id = 12
                         name = "name12"
                         testament = "nt"

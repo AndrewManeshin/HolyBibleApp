@@ -1,23 +1,26 @@
 package com.example.holybibleapp.data.books
 
 import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.core.ToDbMapper
-import com.example.holybibleapp.data.books.cache.BookDB
+import com.example.holybibleapp.data.books.cache.BookDb
 import com.example.holybibleapp.core.DbWrapper
+import com.example.holybibleapp.core.Matcher
+import com.example.holybibleapp.core.Save
+import com.example.holybibleapp.data.books.cache.BookDataToDbMapper
 import com.example.holybibleapp.domain.books.BookDomain
 
 data class BookData(
     private val id: Int,
     private val name: String,
     private val testament: String
-) : Abstract.Object<BookDomain, BookDataToDomainMapper>,
-    ToDbMapper<BookDB, BookDataToDBMapper> {
+) : Abstract.Object.ToDb<BookDb, BookDataToDbMapper>,
+    Abstract.Object<BookDomain, BookDataToDomainMapper>,
+    Matcher<TestamentTemp>,
+    Save<TestamentTemp> {
+
     override fun map(mapper: BookDataToDomainMapper) = mapper.map(id, name)
+    override fun mapBy(mapper: BookDataToDbMapper, db: DbWrapper<BookDb>) =
+        mapper.mapToDb(id, name, testament, db)
 
-    override fun mapToDb(mapper: BookDataToDBMapper, dbWrapper: DbWrapper<BookDB>) =
-        mapper.mapToDB(id, name, testament, dbWrapper)
-
-    fun matches(temp: TestamentTemp) = temp.matches(testament)
-
-    fun saveTestament(temp: TestamentTemp) = temp.save(testament) //todo make other fun
+    override fun matches(arg: TestamentTemp) = arg.matches(testament)
+    override fun save(data: TestamentTemp) = data.save(testament)
 }

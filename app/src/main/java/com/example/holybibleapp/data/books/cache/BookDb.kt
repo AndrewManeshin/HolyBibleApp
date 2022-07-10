@@ -1,12 +1,12 @@
 package com.example.holybibleapp.data.books.cache
 
-import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.data.books.BookData
+
+import com.example.holybibleapp.data.books.CommonBookData
 import com.example.holybibleapp.data.books.ToBookMapper
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
 
-open class BookDB : RealmObject(), Abstract.Object<BookData, ToBookMapper> {
+open class BookDb : RealmObject(), CommonBookData {
     @PrimaryKey
     var id: Int = -1
     var name: String = ""

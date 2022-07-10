@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.holybibleapp.R
 
-abstract class BaseAdapter<E : ComparableTextMapper<E>, T : BaseViewHolder<E>> : RecyclerView.Adapter<T>() {
+abstract class BaseAdapter<E : ComparableTextMapper<E>, T : BaseViewHolder<E>>
+    : RecyclerView.Adapter<T>() {
 
     protected val list = ArrayList<E>()
 

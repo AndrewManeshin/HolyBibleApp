@@ -13,7 +13,7 @@ abstract class Abstract {
 
         interface ToDb<T : RealmObject, M : Mapper> {
 
-            fun mapBy(mapper: M, db: DbWrapper<T>)
+            fun mapBy(mapper: M, db: DbWrapper<T>) : T
         }
     }
 
@@ -25,7 +25,7 @@ abstract class Abstract {
 
         interface DataToDomain<S, R> : Data<S, R> {
 
-            fun map(e: Exception)
+            fun map(e: Exception) : R
 
             abstract class Base<S, R> : DataToDomain<S, R> {
                 protected fun errorType(e: Exception) = when (e) {
