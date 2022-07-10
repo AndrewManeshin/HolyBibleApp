@@ -1,10 +1,9 @@
 package com.example.holybibleapp.domain.chapters
 
 import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.core.ErrorType
-import com.example.holybibleapp.presentation.chapters.ChaptersUI
+import com.example.holybibleapp.core.ResourceProvider
+import com.example.holybibleapp.presentation.chapters.ChaptersUi
 
-interface ChaptersDomainToUIMapper : Abstract.Mapper {
-    fun map(chapters: List<ChapterDomain>) : ChaptersUI
-    fun map(errorType: ErrorType) : ChaptersUI
-}
+abstract class ChaptersDomainToUIMapper(
+    resourceProvider: ResourceProvider
+) : Abstract.Mapper.DomainToUi.Base<List<ChapterDomain>, ChaptersUi>(resourceProvider)

@@ -2,9 +2,10 @@ package com.example.holybibleapp.domain.chapters
 
 import com.example.holybibleapp.core.Abstract
 import com.example.holybibleapp.core.ErrorType
-import com.example.holybibleapp.presentation.chapters.ChaptersUI
+import com.example.holybibleapp.presentation.chapters.ChaptersUi
 
-sealed class ChaptersDomain : Abstract.Object<ChaptersUI, ChaptersDomainToUIMapper> {
+sealed class ChaptersDomain : Abstract.Object<ChaptersUi, ChaptersDomainToUIMapper> {
+
     data class Success(private val chapters: List<ChapterDomain>) : ChaptersDomain() {
         override fun map(mapper: ChaptersDomainToUIMapper) = mapper.map(chapters)
     }

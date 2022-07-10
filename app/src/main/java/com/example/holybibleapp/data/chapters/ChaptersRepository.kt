@@ -8,7 +8,7 @@ import com.example.holybibleapp.data.chapters.cloud.ChaptersCloudMapper
 
 interface ChaptersRepository {
 
-    suspend fun fetchChapters(bookId: Int) : ChaptersData
+    suspend fun fetchChapters() : ChaptersData
 
     class Base(
         private val cloudDataSource: ChaptersCloudDataSource,
@@ -17,7 +17,7 @@ interface ChaptersRepository {
         private val chapterCacheMapper: ChaptersCacheMapper,
         private val bookIdContainer: Read<Pair<Int, String>>
     ) : ChaptersRepository {
-        override suspend fun fetchChapters(bookId: Int) = try {
+        override suspend fun fetchChapters() = try {
             val bookId = bookIdContainer.read().first
             val chaptersCacheList = cacheDataSource.fetchChapters(bookId)
             if (chaptersCacheList.isEmpty()) {

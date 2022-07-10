@@ -1,13 +1,13 @@
 package com.example.holybibleapp.presentation.books
 
 import com.example.holybibleapp.R
-import com.example.holybibleapp.domain.books.BookDomainToUIMapper
-import com.example.holybibleapp.domain.TestamentType
+import com.example.holybibleapp.domain.books.BookDomainToUiMapper
+import com.example.holybibleapp.domain.books.TestamentType
 import com.example.holybibleapp.core.ResourceProvider
 
-class BaseBookDomainToUIMapper(
+class BaseBookDomainToUiMapper(
     private val resourceProvider: ResourceProvider
-) : BookDomainToUIMapper {
+) : BookDomainToUiMapper {
     override fun map(id: Int, name: String) = when {
         TestamentType.NEW.matches(id) -> BookUI.Testament(
             id,
