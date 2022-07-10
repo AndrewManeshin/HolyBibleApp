@@ -1,7 +1,11 @@
 package com.example.holybibleapp.domain
 
-import com.example.holybibleapp.data.BookData
-import com.example.holybibleapp.data.BookDataToDomainMapper
+import com.example.holybibleapp.core.ErrorType
+import com.example.holybibleapp.data.books.BookData
+import com.example.holybibleapp.data.books.BookDataToDomainMapper
+import com.example.holybibleapp.domain.books.BaseBooksDataToDomainMapper
+import com.example.holybibleapp.domain.books.BookDomain
+import com.example.holybibleapp.domain.books.BooksDomain
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody

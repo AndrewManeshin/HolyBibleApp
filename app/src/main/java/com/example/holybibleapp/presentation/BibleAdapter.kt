@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.holybibleapp.R
+import com.example.holybibleapp.presentation.books.BookUI
 
 class BibleAdapter(
     private val retry: Retry
@@ -82,4 +83,3 @@ class BibleAdapter(
     private fun Int.makeView(parent: ViewGroup) =
         LayoutInflater.from(parent.context).inflate(this, parent, false)
 }
-

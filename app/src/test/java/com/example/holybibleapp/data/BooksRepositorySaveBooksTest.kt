@@ -1,12 +1,16 @@
 package com.example.holybibleapp.data
 
-import com.example.holybibleapp.data.cache.BookDB
-import com.example.holybibleapp.data.cache.BooksCacheDataSource
-import com.example.holybibleapp.data.cache.BooksCacheMapper
-import com.example.holybibleapp.data.cache.DBWrapper
-import com.example.holybibleapp.data.net.BookCloud
-import com.example.holybibleapp.data.net.BooksCloudDataSource
-import com.example.holybibleapp.data.net.BooksCloudMapper
+import com.example.holybibleapp.data.books.BookData
+import com.example.holybibleapp.data.books.BooksData
+import com.example.holybibleapp.data.books.BooksRepository
+import com.example.holybibleapp.data.books.cache.BookDB
+import com.example.holybibleapp.data.books.cache.BooksCacheDataSource
+import com.example.holybibleapp.data.books.cache.BooksCacheMapper
+import com.example.holybibleapp.core.DbWrapper
+import com.example.holybibleapp.data.books.BookDataToDBMapper
+import com.example.holybibleapp.data.books.cloud.BookCloud
+import com.example.holybibleapp.data.books.cloud.BooksCloudDataSource
+import com.example.holybibleapp.data.books.cloud.BooksCloudMapper
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -65,16 +69,16 @@ class BooksRepositorySaveBooksTest : BaseBooksRepositoryTest() {
 
         override fun saveBooks(books: List<BookData>) {
             books.map { book ->
-                list.add(book.mapTo(object : BookDataToDBMapper {
-                    override fun mapToDB(id: Int, name: String, testament: String, dbWrapper: DBWrapper) =
+                list.add(book.mapToDb(object : BookDataToDBMapper {
+                    override fun mapToDB(id: Int, name: String, testament: String, dbWrapper: DbWrapper<BookDB>) =
                         BookDB().apply {
                             this.id = id
                             this.name = "$name db"
                             this.testament = "$testament db"
                         }
-                }, object : DBWrapper {
-                    override fun createObject(id: Int) = BookDB().apply {
-                        this.id = id
+                }, object : DbWrapper<BookDB> {
+                    override fun createObject(id: Int?) = BookDB().apply {
+                        this.id = id!!
                     }
                 }))
             }

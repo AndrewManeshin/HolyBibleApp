@@ -1,11 +1,14 @@
 package com.example.holybibleapp.data
 
-import com.example.holybibleapp.data.cache.BookDB
-import com.example.holybibleapp.data.cache.BooksCacheDataSource
-import com.example.holybibleapp.data.cache.BooksCacheMapper
-import com.example.holybibleapp.data.net.BookCloud
-import com.example.holybibleapp.data.net.BooksCloudDataSource
-import com.example.holybibleapp.data.net.BooksCloudMapper
+import com.example.holybibleapp.data.books.BookData
+import com.example.holybibleapp.data.books.BooksData
+import com.example.holybibleapp.data.books.BooksRepository
+import com.example.holybibleapp.data.books.cache.BookDB
+import com.example.holybibleapp.data.books.cache.BooksCacheDataSource
+import com.example.holybibleapp.data.books.cache.BooksCacheMapper
+import com.example.holybibleapp.data.books.cloud.BookCloud
+import com.example.holybibleapp.data.books.cloud.BooksCloudDataSource
+import com.example.holybibleapp.data.books.cloud.BooksCloudMapper
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

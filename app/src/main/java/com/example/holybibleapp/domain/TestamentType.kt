@@ -1,7 +1,8 @@
 package com.example.holybibleapp.domain
 
 import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.presentation.BookUI
+import com.example.holybibleapp.domain.books.BookDomainToUIMapper
+import com.example.holybibleapp.presentation.books.BookUI
 
 enum class TestamentType(private val id: Int) : Abstract.Object<BookUI, BookDomainToUIMapper> {
     OLD(Int.MIN_VALUE),

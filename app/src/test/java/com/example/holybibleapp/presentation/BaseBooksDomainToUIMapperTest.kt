@@ -1,8 +1,12 @@
 package com.example.holybibleapp.presentation
 
 import com.example.holybibleapp.R
-import com.example.holybibleapp.domain.BookDomainToUIMapper
-import com.example.holybibleapp.domain.ErrorType
+import com.example.holybibleapp.domain.books.BookDomainToUIMapper
+import com.example.holybibleapp.core.ErrorType
+import com.example.holybibleapp.core.ResourceProvider
+import com.example.holybibleapp.presentation.books.BaseBooksDomainToUIMapper
+import com.example.holybibleapp.presentation.books.BookUI
+import com.example.holybibleapp.presentation.books.BooksUI
 import org.junit.Assert.*
 import org.junit.Test
 
