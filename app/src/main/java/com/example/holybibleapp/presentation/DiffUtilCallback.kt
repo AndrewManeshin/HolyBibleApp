@@ -1,10 +1,11 @@
 package com.example.holybibleapp.presentation
 
 import androidx.recyclerview.widget.DiffUtil
+import com.example.holybibleapp.presentation.books.BookUi
 
 class DiffUtilCallback(
-    private val oldList: List<BookUI>,
-    private val newList: List<BookUI>,
+    private val oldList: List<BookUi>,
+    private val newList: List<BookUi>,
 ) : DiffUtil.Callback() {
     override fun getOldListSize() = oldList.size
 

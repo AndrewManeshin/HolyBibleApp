@@ -6,7 +6,7 @@ import retrofit2.http.Path
 
 interface ChaptersService {
 
-    @GET("books/{id}/chapters/")
+    @GET("books/{id}/chapters")
     suspend fun fetchChapters(
         @Path("id") bookId: Int
     ): ResponseBody

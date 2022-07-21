@@ -5,7 +5,8 @@ import com.example.holybibleapp.data.books.cache.BooksCacheMapper
 import com.example.holybibleapp.data.books.cloud.BooksCloudDataSource
 import com.example.holybibleapp.data.books.cloud.BooksCloudMapper
 
-interface BooksRepository {
+interface
+BooksRepository {
 
     suspend fun fetchBooks(): BooksData
 

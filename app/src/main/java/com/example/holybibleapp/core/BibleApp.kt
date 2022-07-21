@@ -9,6 +9,7 @@ import com.example.holybibleapp.data.books.ToBookMapper
 import com.example.holybibleapp.data.books.cloud.BooksCloudDataSource
 import com.example.holybibleapp.data.books.cloud.BooksCloudMapper
 import com.example.holybibleapp.data.books.cloud.BooksService
+import com.example.holybibleapp.data.chapters.ChapterIdToUiMapper
 import com.example.holybibleapp.data.chapters.ChaptersRepository
 import com.example.holybibleapp.data.chapters.ToChapterMapper
 import com.example.holybibleapp.data.chapters.cache.ChapterDataToDbMapper
@@ -24,7 +25,11 @@ import com.example.holybibleapp.domain.chapters.BaseChapterDataToDomainMapper
 import com.example.holybibleapp.domain.chapters.BaseChaptersDataToDomainMapper
 import com.example.holybibleapp.domain.chapters.ChaptersInteractor
 import com.example.holybibleapp.presentation.*
-import com.example.holybibleapp.presentation.books.BooksCommunication
+import com.example.holybibleapp.presentation.books.*
+import com.example.holybibleapp.presentation.chapters.BaseChapterDomainToUiMapper
+import com.example.holybibleapp.presentation.chapters.BaseChaptersDomainToUiMapper
+import com.example.holybibleapp.presentation.chapters.ChaptersCommunication
+import com.example.holybibleapp.presentation.chapters.ChaptersViewModel
 import retrofit2.Retrofit
 import com.google.gson.Gson
 import io.realm.Realm
@@ -35,15 +40,17 @@ import java.util.concurrent.TimeUnit
 
 class BibleApp : Application() {
 
+    private companion object {
+        const val BASE_URL = "https://bible-go-api.rkeplin.com/v1/"
+    }
+
     lateinit var mainViewModel: MainViewModel
     lateinit var booksViewModel: BooksViewModel
     lateinit var chaptersViewModel: ChaptersViewModel
 
     override fun onCreate() {
         super.onCreate()
-
         Realm.init(this)
-
         val client = OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)
@@ -51,47 +58,33 @@ class BibleApp : Application() {
                 level = HttpLoggingInterceptor.Level.BODY
             })
             .build()
-
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
             .build()
-
         val service = retrofit.create(BooksService::class.java)
 
         val gson = Gson()
-
         val cloudDataSource = BooksCloudDataSource.Base(service, gson)
-
         val realmProvider = RealmProvider.Base()
-
         val cacheDataSource =
             BooksCacheDataSource.Base(realmProvider, BookDataToDbMapper.Base())
-
         val toBookMapper = ToBookMapper.Base()
-
         val booksCloudMapper = BooksCloudMapper.Base(toBookMapper)
-
         val booksCacheMapper = BooksCacheMapper.Base(toBookMapper)
-
         val booksRepository = BooksRepository.Base(
             cloudDataSource,
             cacheDataSource,
             booksCloudMapper,
             booksCacheMapper
         )
-
         val booksInteractor = BooksInteractor.Base(
             booksRepository,
             BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper())
         )
-
         val communication = BooksCommunication.Base()
-
         val resourceProvider = ResourceProvider.Base(this)
-
         val bookCache = BookCache.Base(this)
-
         val chaptersRepository = ChaptersRepository.Base(
             ChaptersCloudDataSource.Base(
                 retrofit.create(ChaptersService::class.java),
@@ -131,9 +124,5 @@ class BibleApp : Application() {
             navigator,
             bookCache
         ) //todo IoC
-    }
-
-    private companion object {
-        const val BASE_URL = "https://bible-go-api.rkeplin.com/v1/"
     }
 }

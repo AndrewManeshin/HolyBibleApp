@@ -125,7 +125,7 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
         private val returnSuccess: Boolean,
     ) : BooksCacheDataSource {
 
-        override fun fetchBooks(): List<BookDb> {
+        override fun read(): List<BookDb> {
             return if (returnSuccess) {
                 listOf(
                     BookDb().apply {
@@ -149,7 +149,7 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
             }
         }
 
-        override fun saveBooks(books: List<BookData>) {
+        override fun save(books: List<BookData>) {
             // not used here
         }
     }

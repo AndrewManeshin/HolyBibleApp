@@ -1,34 +1,34 @@
-package com.example.holybibleapp.presentation
+package com.example.holybibleapp.presentation.books
 
 interface UiDataCache {
 
-    fun cache(list: List<BookUI>): BooksUI
-    fun changeState(id: Int): List<BookUI>
+    fun cache(list: List<BookUi>): BooksUi
+    fun changeState(id: Int): List<BookUi>
     fun saveState()
 
-    class Base(private val cacheId: IdCache) : UiDataCache {
-        private val cachedList = ArrayList<BookUI>()
+    class Base(private val cacheId: CollapsedIdsCache) : UiDataCache {
+        private val cachedList = ArrayList<BookUi>()
 
-        override fun cache(list: List<BookUI>): BooksUI {
+        override fun cache(list: List<BookUi>): BooksUi {
             cachedList.clear()
             cachedList.addAll(list)
             var newList = list.toList()
             val ids = cacheId.read()
             ids.forEach { id ->
-                    newList = changeState(id)
-                }
-            return BooksUI.Base(newList)
+                newList = changeState(id)
+            }
+            return BooksUi.Base(newList)
         }
 
-        override fun changeState(id: Int): List<BookUI> {
-            val newList = ArrayList<BookUI>()
+        override fun changeState(id: Int): List<BookUi> {
+            val newList = ArrayList<BookUi>()
             val item = cachedList.find {
                 it.matches(id)
             }
 
             var add = false
             cachedList.forEachIndexed { index, book ->
-                if (book is BookUI.Testament) {
+                if (book is BookUi.Testament) {
                     if (item == book) {
                         val element = book.changeState()
                         cachedList[index] = element

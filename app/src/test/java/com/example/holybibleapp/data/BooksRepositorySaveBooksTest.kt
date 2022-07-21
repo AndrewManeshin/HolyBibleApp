@@ -65,11 +65,11 @@ class BooksRepositorySaveBooksTest : BaseBooksRepositoryTest() {
 
         private val list = ArrayList<BookDb>()
 
-        override fun fetchBooks() = list
+        override fun read() = list
 
-        override fun saveBooks(books: List<BookData>) {
+        override fun save(books: List<BookData>) {
             books.map { book ->
-                list.add(book.mapToDb(object : BookDataToDbMapper {
+                list.add(book.mapBy(object : BookDataToDbMapper {
                     override fun mapToDb(id: Int, name: String, testament: String, dbWrapper: DbWrapper<BookDb>) =
                         BookDb().apply {
                             this.id = id
@@ -77,8 +77,8 @@ class BooksRepositorySaveBooksTest : BaseBooksRepositoryTest() {
                             this.testament = "$testament db"
                         }
                 }, object : DbWrapper<BookDb> {
-                    override fun createObject(id: Int?) = BookDb().apply {
-                        this.id = id!!
+                    override fun createObject(id: Int) = BookDb().apply {
+                        this.id = id
                     }
                 }))
             }

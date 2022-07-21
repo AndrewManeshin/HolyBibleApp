@@ -13,8 +13,8 @@ interface ChaptersCloudDataSource {
     ) : ChaptersCloudDataSource {
 
         override suspend fun fetchChapters(bookId: Int): List<ChapterCloud> = gson.fromJson(
-            service.fetchChapters(bookId).toString(),
-            object : TypeToken<List<ChapterCloud>>() {}.type
+            service.fetchChapters(bookId).string(),
+            object : TypeToken<List<ChapterCloud>>() {}.type //todo make a class (DRY)
         )
     }
 }

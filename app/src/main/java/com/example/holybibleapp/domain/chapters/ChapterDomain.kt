@@ -6,6 +6,6 @@ import com.example.holybibleapp.presentation.chapters.ChapterUi
 
 data class ChapterDomain(
     private val chapterId: ChapterId
-) : Abstract.Object<ChapterUi, ChapterDomainToUIMapper> {
-    override fun map(mapper: ChapterDomainToUIMapper) = mapper.map(chapterId)
+) : Abstract.Object<ChapterUi, ChapterDomainToUiMapper> {
+    override fun map(mapper: ChapterDomainToUiMapper) = mapper.map(chapterId)
 }

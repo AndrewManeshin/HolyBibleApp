@@ -9,7 +9,7 @@ import io.realm.Realm
 
 interface ChaptersCacheDataSource : Save<List<ChapterData>> {
 
-    fun fetchChapters(bookId: Int) : List<ChapterDb>
+    fun fetchChapters(bookId: Int): List<ChapterDb>
 
     class Base(
         private val realmProvider: RealmProvider,
@@ -36,7 +36,7 @@ interface ChaptersCacheDataSource : Save<List<ChapterData>> {
             }
         }
 
-        private inner class ChapterDbWrapper(realm : Realm) : DbWrapper.Base<ChapterDb>(realm) {
+        private inner class ChapterDbWrapper(realm: Realm) : DbWrapper.Base<ChapterDb>(realm) {
             override fun dbClass() = ChapterDb::class.java
         }
     }

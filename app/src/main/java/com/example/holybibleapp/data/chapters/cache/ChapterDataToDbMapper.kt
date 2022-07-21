@@ -6,10 +6,9 @@ import com.example.holybibleapp.data.chapters.ChapterId
 
 interface ChapterDataToDbMapper : Abstract.Mapper {
 
-    fun mapToDb(chapterId: ChapterId, dbWrapper: DbWrapper<ChapterDb>): ChapterDb
+    fun mapToDb(chapterId: ChapterId, db: DbWrapper<ChapterDb>): ChapterDb
 
     class Base : ChapterDataToDbMapper {
-        override fun mapToDb(chapterId: ChapterId, dbWrapper: DbWrapper<ChapterDb>) =
-            chapterId.mapToDb(dbWrapper)
+        override fun mapToDb(chapterId: ChapterId, db: DbWrapper<ChapterDb>) = chapterId.mapToDb(db)
     }
 }

@@ -21,11 +21,11 @@ interface BooksCacheDataSource : Save<List<BookData>>, Read<List<BookDb>> {
             }
         }
 
-        override fun save(books: List<BookData>) {
+        override fun save(data: List<BookData>) {
             realmProvider.provide().use { realm ->
                 realm.executeTransaction {
-                    books.forEach { book ->
-                        book.mapToDb(mapper, BookDbWrapper(it))
+                    data.forEach { book ->
+                        book.mapBy(mapper, BookDbWrapper(it))
                     }
                 }
 

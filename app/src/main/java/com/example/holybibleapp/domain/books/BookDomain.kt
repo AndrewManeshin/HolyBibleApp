@@ -1,9 +1,9 @@
 package com.example.holybibleapp.domain.books
 
 import com.example.holybibleapp.core.Abstract
-import com.example.holybibleapp.presentation.books.BookUI
+import com.example.holybibleapp.presentation.books.BookUi
 
-sealed class BookDomain : Abstract.Object<BookUI, BookDomainToUiMapper> {
+sealed class BookDomain : Abstract.Object<BookUi, BookDomainToUiMapper> {
 
     data class Base(
         private val id: Int,

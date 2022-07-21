@@ -1,6 +1,8 @@
 package com.example.holybibleapp.presentation.chapters
 
-import com.example.holybibleapp.core.Abstract
+import com.example.holybibleapp.core.Communication
 
-interface ChaptersCommunication : Abstract.Mapper {
+interface ChaptersCommunication : Communication<List<ChapterUi>> {
+
+    class Base : Communication.Base<List<ChapterUi>>() ,ChaptersCommunication
 }

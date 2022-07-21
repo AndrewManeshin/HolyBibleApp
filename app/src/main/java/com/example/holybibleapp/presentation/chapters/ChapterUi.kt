@@ -9,8 +9,16 @@ sealed class ChapterUi : ComparableTextMapper<ChapterUi> {
         private val id: Int,
         private val text: String
     ) : ChapterUi() {
-        override fun map(mapper: TextMapper) {
-            TODO("Not yet implemented")
-        }
+        override fun map(mapper: TextMapper) = mapper.map(text)
+    }
+
+    class Fail(
+        private val message: String
+    ) : ChapterUi() {
+        override fun map(mapper: TextMapper) = mapper.map(message)
+    }
+
+    object Progress : ChapterUi() {
+        override fun map(mapper: TextMapper) = Unit
     }
 }

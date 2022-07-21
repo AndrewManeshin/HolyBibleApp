@@ -13,9 +13,9 @@ interface ChapterId : Abstract.Object<ChapterUi, ChapterIdToUiMapper> {
 
     class Base : ChapterId {
 
-        private val bookId: Int // [1 - 66]
-        private val chapterIdReal: Int // [1 - 999]
-        private val chapterIdGenerated: Int // [1001 - 66999]
+        private val bookId: Int //[1 - 66]
+        private val chapterIdReal: Int //[1 - 999]
+        private val chapterIdGenerated: Int// [1001 - 66999]
 
         constructor(
             bookId: Int,
@@ -32,11 +32,12 @@ interface ChapterId : Abstract.Object<ChapterUi, ChapterIdToUiMapper> {
             }
         }
 
-        override fun map(mapper: ChapterIdToUiMapper) = mapper.map(chapterIdGenerated, chapterIdReal)
-        override fun mapToDb(db: DbWrapper<ChapterDb>) = db.createObject(chapterIdGenerated)
-
         override fun min() = MULTIPLY * bookId
         override fun max() = MULTIPLY * (bookId + 1)
+
+        override fun mapToDb(db: DbWrapper<ChapterDb>) = db.createObject(chapterIdGenerated)
+        override fun map(mapper: ChapterIdToUiMapper) =
+            mapper.map(chapterIdGenerated, chapterIdReal)
 
         private companion object {
             const val MULTIPLY = 1000
