@@ -1,11 +1,14 @@
 package com.example.holybibleapp.data
 
-import com.example.holybibleapp.data.cache.BookDB
-import com.example.holybibleapp.data.cache.BooksCacheDataSource
-import com.example.holybibleapp.data.cache.BooksCacheMapper
-import com.example.holybibleapp.data.net.BookCloud
-import com.example.holybibleapp.data.net.BooksCloudDataSource
-import com.example.holybibleapp.data.net.BooksCloudMapper
+import com.example.holybibleapp.data.books.BookData
+import com.example.holybibleapp.data.books.BooksData
+import com.example.holybibleapp.data.books.BooksRepository
+import com.example.holybibleapp.data.books.cache.BookDb
+import com.example.holybibleapp.data.books.cache.BooksCacheDataSource
+import com.example.holybibleapp.data.books.cache.BooksCacheMapper
+import com.example.holybibleapp.data.books.cloud.BookCloud
+import com.example.holybibleapp.data.books.cloud.BooksCloudDataSource
+import com.example.holybibleapp.data.books.cloud.BooksCloudMapper
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -122,20 +125,20 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
         private val returnSuccess: Boolean,
     ) : BooksCacheDataSource {
 
-        override fun fetchBooks(): List<BookDB> {
+        override fun read(): List<BookDb> {
             return if (returnSuccess) {
                 listOf(
-                    BookDB().apply {
+                    BookDb().apply {
                         id = 10
                         name = "name10"
                         testament = "nt"
                     },
-                    BookDB().apply {
+                    BookDb().apply {
                         id = 11
                         name = "name11"
                         testament = "nt"
                     },
-                    BookDB().apply {
+                    BookDb().apply {
                         id = 12
                         name = "name12"
                         testament = "nt"
@@ -146,7 +149,7 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
             }
         }
 
-        override fun saveBooks(books: List<BookData>) {
+        override fun save(books: List<BookData>) {
             // not used here
         }
     }

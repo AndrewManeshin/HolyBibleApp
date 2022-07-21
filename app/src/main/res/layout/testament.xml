@@ -8,7 +8,7 @@
     android:background="@color/purple_200"
     android:orientation="horizontal">
 
-    <TextView
+    <com.example.holybibleapp.core.CustomTextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:textColor="@color/white"
         tools:text="Genesis" />
 
-    <ImageView
+    <com.example.holybibleapp.core.CollapseView
         android:id="@+id/collapseView"
         app:tint="@color/white"
         android:layout_width="wrap_content"

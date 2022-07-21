@@ -1,5 +1,9 @@
 package com.example.holybibleapp.presentation
 
+import com.example.holybibleapp.presentation.books.BookUi
+import com.example.holybibleapp.presentation.books.BooksUi
+import com.example.holybibleapp.presentation.books.CollapsedIdsCache
+import com.example.holybibleapp.presentation.books.UiDataCache
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -11,14 +15,14 @@ class UiDataCacheSaveTest {
         val uiDataCache = UiDataCache.Base(idCache)
         val actual = uiDataCache.cache(
             listOf(
-                BookUI.Testament(0, "0"),
-                BookUI.Base(1, "1"),
+                BookUi.Testament(0, "0"),
+                BookUi.Base(1, "1"),
             )
         )
-        val expected = BooksUI.Base(
+        val expected = BooksUi.Base(
             listOf(
-                BookUI.Testament(0, "0"),
-                BookUI.Base(1, "1"),
+                BookUi.Testament(0, "0"),
+                BookUi.Base(1, "1"),
             )
         )
         assertEquals(expected, actual)
@@ -31,17 +35,17 @@ class UiDataCacheSaveTest {
         val uiDataCache = UiDataCache.Base(idCache)
         val actual = uiDataCache.cache(
             listOf(
-                BookUI.Testament(0, "0"),
-                BookUI.Base(1, "1"),
-                BookUI.Testament(2, "2"),
-                BookUI.Base(3, "3"),
+                BookUi.Testament(0, "0"),
+                BookUi.Base(1, "1"),
+                BookUi.Testament(2, "2"),
+                BookUi.Base(3, "3"),
             )
         )
-        val expected = BooksUI.Base(
+        val expected = BooksUi.Base(
             listOf(
-                BookUI.Testament(0, "0", true),
-                BookUI.Testament(2, "2"),
-                BookUI.Base(3, "3"),
+                BookUi.Testament(0, "0", true),
+                BookUi.Testament(2, "2"),
+                BookUi.Base(3, "3"),
             )
         )
         assertEquals(expected, actual)
@@ -55,29 +59,29 @@ class UiDataCacheSaveTest {
         val uiDataCache = UiDataCache.Base(idCache)
         val actual = uiDataCache.cache(
             listOf(
-                BookUI.Testament(0, "0"),
-                BookUI.Base(1, "1"),
-                BookUI.Testament(2, "2"),
-                BookUI.Base(3, "3"),
+                BookUi.Testament(0, "0"),
+                BookUi.Base(1, "1"),
+                BookUi.Testament(2, "2"),
+                BookUi.Base(3, "3"),
             )
         )
-        val expected = BooksUI.Base(
+        val expected = BooksUi.Base(
             listOf(
-                BookUI.Testament(0, "0", true),
-                BookUI.Testament(2, "2", true),
+                BookUi.Testament(0, "0", true),
+                BookUi.Testament(2, "2", true),
             )
         )
         assertEquals(expected, actual)
     }
 
 
-    private inner class TestIdCache : IdCache {
+    private inner class TestIdCache : CollapsedIdsCache {
 
         private val set = mutableSetOf<Int>()
 
         override fun read() = set
-        override fun save(id: Int) {
-            set.add(id)
+        override fun save(data: Int) {
+            set.add(data)
         }
 
         override fun finish() = Unit
